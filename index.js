@@ -68,12 +68,11 @@ function drawCanvas(feed, actualNew = 0) {
 
     const mainNew = feed.items[actualNew];
 
-    let canvas = `\n${title}\n`;
+    let canvas = `${title}\n`;
 
-    canvas += `\n\n${mainNew.title}`;
-    canvas += `\n\n${new Date(mainNew.pubDate).toLocaleTimeString()}`;
-    canvas += `\n\n${mainNew.content}`;
-    canvas += `\n\n${mainNew.link}`;
+    canvas += `\n${new Date(mainNew.pubDate).toLocaleTimeString()} === ${mainNew.title}`;
+    canvas += `\n\n${mainNew.content}\n`;
+    canvas += `\n${mainNew.link}\n\n`;
 
     for (let i = 0; i < 10; i++) {
         if (i >= items.length - 1) { break; }

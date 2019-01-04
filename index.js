@@ -1,34 +1,22 @@
-let Parser = require('rss-parser');
-const readline = require('readline');
+const Parser = require('rss-parser');
+const parser = new Parser();
+const helper = require('./demo');
 
-let parser = new Parser();
 process.stdout.write('\033c');
 
-let url = 'https://www.novinky.cz/rss2/';
+const url = 'https://www.novinky.cz/rss2/';
 
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
-
-
-
-
-
-let feed = undefined;
 parser.parseURL(url).then(async feed => {
     let fps = "";
 
     while (true) {
         let start = new Date();
-        // feed = await reload();
-        await sleep(1000);
-        drawCanvas(feed);
+        feed = await reload();
+        await drawCanvas(feed);
+        // await sleep(10000)
         let timeMs = new Date() - start;
         fps = `FPS: ${Math.round(1000 / timeMs)}`;
         console.log(fps);
-
-
     }
 });
 
@@ -50,9 +38,7 @@ function sleep(time) {
 }
 
 
-function drawCanvas(feed, actualNew = 0) {
-    process.stdout.write('\033c');
-
+async function drawCanvas(feed, actualNew = 0) {
     if (!feed) {
         process.stdout.write("UNDEFINED!!!");
         return;
@@ -68,11 +54,12 @@ function drawCanvas(feed, actualNew = 0) {
 
     const mainNew = feed.items[actualNew];
 
-    let canvas = `${title}\n`;
+    let canvas = `\n${new Date(mainNew.pubDate).toLocaleTimeString()} - ${title}`;
+    canvas += await helper.getContent(mainNew.link);
 
-    canvas += `\n${new Date(mainNew.pubDate).toLocaleTimeString()} === ${mainNew.title}`;
-    canvas += `\n\n${mainNew.content}\n`;
-    canvas += `\n${mainNew.link}\n\n`;
+    // canvas += `\n${new Date(mainNew.pubDate).toLocaleTimeString()} === ${mainNew.title}`;
+    // canvas += `\n\n${mainNew.content}\n`;
+    // canvas += `\n${mainNew.link}\n\n`;
 
     for (let i = 0; i < 10; i++) {
         if (i >= items.length - 1) { break; }
@@ -82,6 +69,7 @@ function drawCanvas(feed, actualNew = 0) {
 
     canvas += `\n\n${loading('Waiting....................................')}\n\n\n`;
 
+    process.stdout.write('\033c');
     process.stdout.write(canvas);
 }
 

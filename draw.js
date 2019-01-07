@@ -2,8 +2,11 @@ const parse = require('node-html-parser').parse;
 
 const loader = require('./loader');
 const consoleEdit = require('./consoleEdit');
+const storage = require('./storage');
 
-async function drawCanvas(feed, actualNew = 0) {
+async function drawCanvas(actualNew = 0) {
+    const feed = storage.feed;
+
     if (!feed) {
         process.stdout.write("UNDEFINED!!!");
         return;

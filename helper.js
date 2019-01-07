@@ -9,6 +9,5 @@ function sleep(time) {
 }
 
 module.exports = {
-    getContent,
     sleep
 };

@@ -1,16 +1,5 @@
-const loader = require('./loader');
-const draw = require('./draw');
+require('./menu');
 
-process.stdout.write('\033c');
+const update = require('./update');
 
-let switchBool = false;
-loader.reload().then(async feed => {
-    while (true) {
-        feed = await loader.reload();
-        await draw.drawCanvas(feed);
-        if(switchBool){
-            console.log("*");
-        }
-        switchBool = !switchBool;
-    }
-});
+update.startUpdate();

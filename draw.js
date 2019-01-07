@@ -27,7 +27,7 @@ async function drawCanvas(actualNew = 0) {
 
     canvas += "\n";
 
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 10; i++) {
         if (i >= items.length - 1) { break; }
         const item = items[i];
 

@@ -24,6 +24,15 @@ process.stdin.on('keypress', function (chunk, key) {
 
     if (key && key.name == 'q') process.exit();
     if (key && key.ctrl && key.name == 'c') process.exit();
+
+    if (key) {
+        const numb = Number.parseInt(key.name);
+
+        if(Number.isInteger(numb)){
+            articleSelected = numb;
+            setMenu();
+        }
+    }
 });
 
 function menuUp() {

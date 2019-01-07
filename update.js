@@ -1,8 +1,13 @@
 const sleep = require('./helper').sleep;
 const loader = require('./loader');
-const menu = require('./menu');
 const draw = require('./draw');
 const storage = require('./storage');
+
+const fs = require('fs');
+// Load config.json
+const config = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
+
+storage.countPage = config.rss.urls.length;
 
 let continueUpdating = true;
 
@@ -12,23 +17,25 @@ function end() {
 
 async function startUpdate() {
     while (continueUpdating) {
-        const feed = await loader.reload();
+        await update();
 
-        if(!storage.feed || feed.toString() != storage.feed.toString()){
-            menu.resetSelectedArticle();
-            storage.feed = feed;
-            await draw.drawCanvas();
-        }
+        await sleep(1000); // 1 minute
+    }
+}
 
-        // await sleep(60 * 1000); // 1 minute
-        // console.log(new Date());
-        
-        await sleep( 1000); // 1 minute
+async function update() {
+    const feed = await loader.reload(config.rss.urls[storage.page]);
 
+    if (feed.items[0].title != storage.lastTitle) {
+        storage.articleSelected = 0;
+        storage.lastTitle = feed.items[0].title;
+        storage.feed = feed;
+        await draw.drawCanvas(storage.articleSelected);
     }
 }
 
 module.exports = {
     end,
-    startUpdate
+    startUpdate,
+    update
 }

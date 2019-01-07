@@ -1,5 +1,11 @@
 {
     "rss": {
-        "url": "https://www.novinky.cz/rss2/"
+        "url": "https://www.novinky.cz/rss2/",
+        "urls": [
+            "https://www.novinky.cz/rss2/",
+            "http://www.novinky.cz/rss2/vase-zpravy/pardubicky-kraj/usti-nad-orlici/",
+            "http://www.novinky.cz/rss2/vase-zpravy/jihomoravsky-kraj/brno-mesto/",
+            "http://www.novinky.cz/rss2/vase-zpravy/jihomoravsky-kraj/"
+        ]
     }   
 }

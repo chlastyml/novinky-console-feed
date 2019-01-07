@@ -1,15 +1,11 @@
-const fs = require('fs');
 const Parser = require('rss-parser');
 const parser = new Parser();
 
 const request = require("request");
 
-// Load config.json
-let config = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
-
-function reload() {
+function reload(rssLink) {
     return new Promise((resolve, reject) => {
-        parser.parseURL(config.rss.url).then(feed => {
+        parser.parseURL(rssLink).then(feed => {
             resolve(feed);
         }).catch(err => reject(err));
     });

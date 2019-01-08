@@ -23,7 +23,7 @@ async function drawCanvas(actualNew = 0) {
     const mainNew = feed.items[actualNew];
 
     let canvas = `${new Date(mainNew.pubDate).toLocaleTimeString()} - ${title}`;
-    
+
 
     canvas += "\n";
 
@@ -36,16 +36,16 @@ async function drawCanvas(actualNew = 0) {
 
         const article = `(${orderNumber}) ${articleTime} => ${item.title}`;
 
-        if(i == actualNew){
+        if (i == actualNew) {
             canvas += consoleEdit.bold(`\n${article}`);
-        }else{
+        } else {
             canvas += `\n${article}`;
         }
     }
 
     canvas += await getContent(mainNew.link);
 
-    canvas += "\n\n";
+    canvas += `\n\nVice na ${mainNew.link}`;
 
     process.stdout.write('\033c');
     process.stdout.write(canvas);
@@ -61,6 +61,10 @@ function getContent(link) {
             const perexNode = findNode(root, { name: "rawAttrs", value: "class=\"perex\"" })
             const contentNode = findNode(root, { name: "id", value: "articleBody" });
 
+            const discussionNode = findNode(root, { name: "id", value: "discussionEntry" });
+            const discussionLinkNode = findNode(discussionNode, { name: "tagName", value: "a" });
+            const discussionCount = discussionNode.childNodes[1].childNodes[2];
+
             let content = "";
 
             // head
@@ -69,7 +73,7 @@ function getContent(link) {
             content += '\n';
             content += consoleEdit.red(perexNode.rawText);
             content += '\n';
-            
+
             // content
             contentNode.childNodes.forEach(child => {
                 if (child.tagName) {
@@ -83,6 +87,12 @@ function getContent(link) {
                     }
                 }
             });
+
+            content += '\n\n';
+            content += `${discussionCount}`.substring(3);
+            content += '\n';
+            content += createDiscussionLink(discussionLinkNode.rawAttrs);
+            content += '\n';
 
             resolve(content);
         });
@@ -122,6 +132,21 @@ function splitVety(str) {
         }
     }
     return result;
+}
+
+function createDiscussionLink(rawLink = "asd") {
+    return `https://www.novinky.cz${replaceAll(
+        replaceAll(
+            replaceAll(rawLink, "&amp;", "&"),
+            "href=\"", ""), "\"", "")}`;
+}
+
+function replaceAll(str, find, replace) {
+    return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
+}
+
+function escapeRegExp(str) {
+    return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
 }
 
 module.exports = {

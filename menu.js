@@ -11,7 +11,7 @@ const fs = require('fs');
 const config = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
 
 process.stdin.on('keypress', function (chunk, key) {
-    process.stdout.write('Get Chunk: ' + key.name + '\n');
+    // process.stdout.write('\nGet Chunk: ' + key.name + '\n');
 
     if (key && key.name == 'down') menuDown();
     if (key && key.name == 'up') menuUp();

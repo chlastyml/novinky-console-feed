@@ -19,7 +19,7 @@ async function startUpdate() {
     while (continueUpdating) {
         await update();
 
-        await sleep(1000); // 1 minute
+        await sleep(3 * 60 * 1000); // 3 minute
     }
 }
 

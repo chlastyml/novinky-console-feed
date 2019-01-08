@@ -31,13 +31,13 @@ async function drawCanvas(actualNew = 0) {
         if (i >= items.length - 1) { break; }
         const item = items[i];
 
-        const orderNumber = i.toString().padStart(2);
+        const orderNumber = i.toString(); //.padStart(1);
         const articleTime = new Date(item.pubDate).toLocaleTimeString().padStart(9);
 
         const article = `(${orderNumber}) ${articleTime} => ${item.title}`;
 
         if (i == actualNew) {
-            canvas += consoleEdit.bold(`\n${article}`);
+            canvas += consoleEdit.reverse(`\n${article}`);
         } else {
             canvas += `\n${article}`;
         }

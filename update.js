@@ -1,41 +1,43 @@
-const sleep = require('./helper').sleep;
-const loader = require('./loader');
-const draw = require('./draw');
-const storage = require('./storage');
+const sleep = require('./helper').sleep
+const loader = require('./loader')
+const draw = require('./draw')
+const storage = require('./storage')
 
-const fs = require('fs');
+const fs = require('fs')
 // Load config.json
-const config = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
+const config = JSON.parse(fs.readFileSync('./config.json', 'utf8'))
 
-storage.countPage = config.rss.urls.length;
+storage.countPage = config.rss.urls.length
 
-let continueUpdating = true;
+let continueUpdating = true
 
-function end() {
-    continueUpdating = false;
+function end () {
+  continueUpdating = false
 }
 
-async function startUpdate() {
-    while (continueUpdating) {
-        await update();
+async function startUpdate () {
+  while (true) {
+    if (!continueUpdating) break
 
-        await sleep(3 * 60 * 1000); // 3 minute
-    }
+    await update()
+
+    await sleep(3 * 60 * 1000) // 3 minute
+  }
 }
 
-async function update() {
-    const feed = await loader.reload(config.rss.urls[storage.page]);
+async function update () {
+  const feed = await loader.reload(config.rss.urls[storage.page])
 
-    if (feed.items[0].title != storage.lastTitle) {
-        storage.articleSelected = 0;
-        storage.lastTitle = feed.items[0].title;
-        storage.feed = feed;
-        await draw.drawCanvas(storage.articleSelected);
-    }
+  if (feed.items[0].title !== storage.lastTitle) {
+    storage.articleSelected = 0
+    storage.lastTitle = feed.items[0].title
+    storage.feed = feed
+    await draw.drawCanvas(storage.articleSelected)
+  }
 }
 
 module.exports = {
-    end,
-    startUpdate,
-    update
+  end,
+  startUpdate,
+  update
 }

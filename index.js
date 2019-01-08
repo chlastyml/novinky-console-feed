@@ -1,5 +1,5 @@
-require('./menu');
+require('./menu')
 
-const update = require('./update');
+const update = require('./update')
 
-update.startUpdate();
+update.startUpdate()

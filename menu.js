@@ -20,7 +20,7 @@ process.stdin.on('keypress', function (chunk, key) {
   if (key && key.name === 'right') menuRight()
 
   if (key && key.name === 'r') {
-    storage.articleSelected = 0
+    // storage.articleSelected = 0
     setMenu()
   }
 

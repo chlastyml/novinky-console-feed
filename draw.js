@@ -77,73 +77,33 @@ function createMenuItem (items, actualNew) {
 function getContent (link) {
   return new Promise((resolve, reject) => {
     getContentData(link).then(result => {
-      // resolve(JSON.stringify(result, null, 4))
-
-      let content = ''
-
-      // head
-      content += consoleBlock.central(result.title, consoleEdit.special.title(consoleEdit.red(result.title))) + '\n'
-      content += consoleEdit.red(consoleBlock.centralWritefy(result.perex)) + '\n'
-
-      result.content.forEach(element => {
-        if (element.hasTitle) {
-          content += consoleEdit.bold(consoleBlock.central(element.title)) + '\n'
-        }
-        content += consoleBlock.centralWritefy(element.text) + '\n'
-      })
-
-      content += '\n\n'
-      content += result.discussion.text
-      content += '\n'
-      content += result.discussion.link
-      content += '\n'
-
+      const content = createContent(result)
       resolve(content)
     }).catch(err => reject(err))
-    // loader.getHtml(link).then(body => {
-    //   const root = parse(body)
-
-    //   // Init variable
-    //   const titleNode = findNode(root, { name: 'tagName', value: 'h1' })
-    //   const perexNode = findNode(root, { name: 'rawAttrs', value: 'class="perex"' })
-    //   const contentNode = findNode(root, { name: 'id', value: 'articleBody' })
-
-    //   const discussionNode = findNode(root, { name: 'id', value: 'discussionEntry' })
-    //   const discussionLinkNode = findNode(discussionNode, { name: 'tagName', value: 'a' })
-    //   const discussionCount = discussionNode.childNodes[1].childNodes[2]
-
-    //   let content = ''
-
-    //   // head
-    //   content += '\n\n'
-    //   content += consoleEdit.special.title(consoleEdit.red(titleNode.rawText))
-    //   const perex = `${consoleEdit.red(perexNode.rawText)}`
-    //   content += perex ? `\n${perex}` : ''
-    //   content += '\n'
-
-    //   // content
-    //   contentNode.childNodes.forEach(child => {
-    //     if (child.tagName) {
-    //       // paragraf
-    //       if (child.tagName === 'p' && child.rawAttrs === '') {
-    //         content += `\n${child.rawText}`
-    //       }
-    //       // nadpis
-    //       if (child.tagName[0] === 'h') {
-    //         content += '\n\n\x1b[1m' + child.rawText + '\x1b[0m'
-    //       }
-    //     }
-    //   })
-
-    //   content += '\n\n'
-    //   content += `${discussionCount}`.substring(3)
-    //   content += '\n'
-    //   content += createDiscussionLink(discussionLinkNode.rawAttrs)
-    //   content += '\n'
-
-    //   resolve(content)
-    // })
   })
+}
+
+function createContent (data) {
+  let content = ''
+
+  // head
+  content += consoleBlock.central(data.title, consoleEdit.special.title(consoleEdit.red(data.title))) + '\n'
+  content += consoleEdit.red(consoleBlock.centralWritefy(data.perex)) + '\n'
+
+  data.content.forEach(element => {
+    if (element.hasTitle) {
+      content += consoleEdit.bold(consoleBlock.central(element.title)) + '\n'
+    }
+    content += consoleBlock.centralWritefy(element.text) + '\n'
+  })
+
+  content += '\n\n'
+  content += data.discussion.text
+  content += '\n'
+  content += data.discussion.link
+  content += '\n'
+
+  return content
 }
 
 module.exports = {

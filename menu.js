@@ -24,6 +24,18 @@ process.stdin.on('keypress', function (chunk, key) {
     setMenu()
   }
 
+  if (key && key.name === 's') {
+    const fs = require('fs')
+
+    fs.writeFile(`./feeds/${(new Date()).toISOString()}.json`, JSON.stringify(storage.feed, null, 2), function (err) {
+      if (err) {
+        return console.log(err)
+      }
+
+      console.log('The feed was saved!')
+    })
+  }
+
   if (key && key.name === 'q') process.exit()
   if (key && key.ctrl && key.name === 'c') process.exit()
 

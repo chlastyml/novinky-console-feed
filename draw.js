@@ -21,6 +21,13 @@ async function drawCanvas (actualNew = 0) {
 
   const mainNew = feed.items[actualNew]
 
+  console.log()
+  console.log()
+  console.log(JSON.stringify(mainNew, null, 2))
+  console.log()
+  console.log(mainNew.link)
+  console.log()
+
   let canvas = `${new Date(mainNew.pubDate).toLocaleTimeString()} - ${title}`
 
   canvas += '\n' + createMenuItem(items, actualNew)
@@ -58,7 +65,9 @@ function createMenuItem (items, actualNew) {
     const orderNumber = i.toString() // .padStart(1);
     const articleTime = new Date(item.pubDate).toLocaleTimeString().padStart(9)
 
-    let article = `(${orderNumber}) ${articleTime} => ${item.title}`
+    const linkEx = item.link.indexOf('www.novinky.cz') > -1 ? '' : '(EXT) '
+
+    let article = `(${orderNumber}) ${articleTime} => ${linkEx}${item.title}`
 
     if (article.length > process.stdout.columns) {
       article = article.substring(0, process.stdout.columns - 4) + '...'

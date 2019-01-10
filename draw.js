@@ -21,12 +21,12 @@ async function drawCanvas (actualNew = 0) {
 
   const mainNew = feed.items[actualNew]
 
-  console.log()
-  console.log()
-  console.log(JSON.stringify(mainNew, null, 2))
-  console.log()
-  console.log(mainNew.link)
-  console.log()
+  // console.log()
+  // console.log()
+  // console.log(JSON.stringify(mainNew, null, 2))
+  // console.log()
+  // console.log(mainNew.link)
+  // console.log()
 
   let canvas = `${new Date(mainNew.pubDate).toLocaleTimeString()} - ${title}`
 
